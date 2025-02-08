@@ -12,5 +12,7 @@ public class Main {
         for(Transaction t : a.getTransactionList()) {
             System.out.println(t.getCurrentState() + ";" + t.getLetterConsumed()+ ";" + t.getLetterToUnstack()+ ";" + t.getLetterToStack()+ ";" + t.getNextState());
         }
+
+        System.out.println(a.acceptSentence("ab"));
     }
 }

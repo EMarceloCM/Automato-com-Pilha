@@ -13,14 +13,10 @@ import java.util.logging.Logger;
 public class Automaton {
     private Set<String> finalStates;
     private List<Transaction> transactionList;
-    private Stack<Character> stack;
-    private Queue<Character> queue;
 
     public Automaton() {
         finalStates = new HashSet<>();
         transactionList = new ArrayList<>();
-        stack = new Stack<>();
-        queue = new LinkedList<>();
 
         try {
             readTransactionFile();
@@ -56,7 +52,50 @@ public class Automaton {
         }
     }
 
-    public boolean acceptSentence(String sentence) {
-        return true;
+    public boolean acceptSentence(String palavra) {
+        Stack<Character> stack = new Stack<>();
+        Queue<Character> queue = new LinkedList<>();
+
+        for (char c : palavra.toCharArray()) queue.add(c);
+
+        return process("q0", queue, stack);
+    }
+
+    private boolean process(String currentState, Queue<Character> queue, Stack<Character> stack) {
+        if (queue.isEmpty() && finalStates.contains(currentState)) {
+            return true; // aceita palavra se estiver vazia e o estado atual for final
+        }
+
+        for (Transaction transaction : transactionList) {
+            boolean canConsume = transaction.getLetterConsumed() == '-' ||
+                    (!queue.isEmpty() && transaction.getLetterConsumed() == queue.peek()) ||
+                    (transaction.getLetterConsumed() == '?' && queue.isEmpty());
+
+            boolean canUnstack = transaction.getLetterToUnstack() == '-' ||
+                    (!stack.isEmpty() && transaction.getLetterToUnstack() == stack.peek()) ||
+                    (transaction.getLetterToUnstack() == '?' && stack.isEmpty());
+
+            if (!transaction.getCurrentState().equals(currentState) || !canConsume || !canUnstack)
+                continue;
+
+            Queue<Character> newQueue = new LinkedList<>(queue);
+            Stack<Character> newStack = (Stack<Character>) stack.clone();
+
+            if (transaction.getLetterConsumed() != '-' && transaction.getLetterConsumed() != '?')
+                newQueue.poll();
+
+            if (transaction.getLetterToUnstack() != '-' && transaction.getLetterToUnstack() != '?')
+                newStack.pop();
+
+            if (transaction.getLetterToStack() != '-')
+                newStack.push(transaction.getLetterToStack());
+
+            if (process(transaction.getNextState(), newQueue, newStack)) {
+                return true;
+            }
+
+        }
+
+        return false;
     }
 }
