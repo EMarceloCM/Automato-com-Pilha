@@ -1,8 +1,0 @@
-q3;q2;
-q0;a;A;B;q1
-q0;a;A;B;q1
-q0;a;A;B;q1
-q0;a;A;B;q1
-q0;a;A;B;q1
-q0;a;A;B;q1
-q0;a;A;B;q1

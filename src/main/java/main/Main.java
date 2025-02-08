@@ -1,13 +1,16 @@
 package main;
 
+import modelo.Automaton;
+import modelo.Transaction;
+
 public class Main {
     public static void main(String[] args) {
-        Automato linguagemAABB = new Automato();
+        Automaton a = new Automaton();
 
-        if (linguagemAABB.verificaSentenca("ababababa")) {
-            System.out.println("Aceita");
-        } else {
-            System.out.println("Rejeita");
+        System.out.println(a.getFinalStates());
+
+        for(Transaction t : a.getTransactionList()) {
+            System.out.println(t.getCurrentState() + ";" + t.getLetterConsumed()+ ";" + t.getLetterToUnstack()+ ";" + t.getLetterToStack()+ ";" + t.getNextState());
         }
     }
 }

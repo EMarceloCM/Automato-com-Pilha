@@ -1,9 +1,16 @@
 package modelo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class Transaction {
-    public String currentState;
-    public char letterConsumed;
-    public char letterToUnstack;
-    public char letterToStack;
-    public String nextState;
+    private String currentState;
+    private char letterConsumed;
+    private char letterToUnstack;
+    private char letterToStack;
+    private String nextState;
 }
