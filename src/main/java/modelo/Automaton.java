@@ -67,6 +67,9 @@ public class Automaton {
         }
 
         for (Transaction transaction : transactionList) {
+            if (!transaction.getCurrentState().equals(currentState)) // verificar se o estado atual é o mesmo da linha da lista
+                continue;
+
             boolean canConsume = transaction.getLetterConsumed() == '-' ||
                     (!queue.isEmpty() && transaction.getLetterConsumed() == queue.peek()) ||
                     (transaction.getLetterConsumed() == '?' && queue.isEmpty());
@@ -75,7 +78,7 @@ public class Automaton {
                     (!stack.isEmpty() && transaction.getLetterToUnstack() == stack.peek()) ||
                     (transaction.getLetterToUnstack() == '?' && stack.isEmpty());
 
-            if (!transaction.getCurrentState().equals(currentState) || !canConsume || !canUnstack)
+            if (!canConsume || !canUnstack)
                 continue;
 
             Queue<Character> newQueue = new LinkedList<>(queue);
