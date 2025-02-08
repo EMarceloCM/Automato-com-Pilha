@@ -21,6 +21,7 @@ public class Automato {
         this.estadosFinais = new ArrayList<>();
         this.estadosFinais.add(3);
         this.matriz = new MatrizTransicao();
+        this.matriz.loadMatrizTransicao();
     }
 
     public boolean verificaSentenca(String sentenca) {
@@ -38,22 +39,16 @@ public class Automato {
             i++;
         }
 
-        if (estadoAtual == -1) {
-            return false;
-        } else if (isFinal(estadoAtual)) {
-            return true;
-        } else {
-            return false;
-        }
+        return estadoAtual != -1 && isFinal(estadoAtual);
     }
     
     public String converterSentenca(){
-        String aux = "";
+        StringBuilder aux = new StringBuilder();
         
         for(int i=0; i<=this.sentenca.length()-1;i++){
-            aux = aux + this.alfabe2Index(this.sentenca.charAt(i));
+            aux.append(this.alfabe2Index(this.sentenca.charAt(i)));
         }
-        return aux;
+        return aux.toString();
     }            
 
     private boolean isFinal(int estado) {
@@ -61,36 +56,20 @@ public class Automato {
     }
 
     private char alfabe2Index(char m) {
-        char aux = '-';
-        switch (m) {
-            case 'a':
-                aux = '0';
-                break;
-            case 'b':
-                aux = '1';
-                break;
-            default:
-                aux = '-';
-                break;
-        }
-        return aux;
-    }    
+        return switch (m) {
+            case 'a' -> '0';
+            case 'b' -> '1';
+            default -> '-';
+        };
+    }
     
     //Não estamos usando este método
     public int estados2Index(String estado) {
         char aux = '-';
-        switch (estado) {
-            case "q0":
-                return 0;
-
-            case "q1":
-                return 1;
-
-            default:
-                return -1;
-
-        }
-        
+        return switch (estado) {
+            case "q0" -> 0;
+            case "q1" -> 1;
+            default -> -1;
+        };
     }
-
 }
