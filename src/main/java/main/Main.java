@@ -8,7 +8,7 @@ public class Main {
 
         if (linguagemAABB.verificaSentenca("ababababa")) {
             System.out.println("Aceita");
-        }else{
+        } else {
             System.out.println("Rejeita");
         }
     }

@@ -3,6 +3,7 @@ package modelo;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * @author jose
  */
 public class MatrizTransicao {
-    
+
     private int [][] matriz;
     private int cols, rows;
 
@@ -24,39 +25,39 @@ public class MatrizTransicao {
         this.matriz = new int [][] {{1,2},{3,2},{1,3}, {3,3}};        
     }
     
-    public void loadMatrizTransicao(){
+    public void loadMatrizTransicao() {
         try {
-            FileReader file = new FileReader("MatrizTransicao.txt");
-            Scanner arquivo = new Scanner(file);
-            
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("MatrizTransicao.txt");
+
+            if (inputStream == null) {
+                throw new FileNotFoundException("Arquivo MatrizTransicao.txt não encontrado no classpath!");
+            }
+
+            Scanner arquivo = new Scanner(inputStream);
+
             arquivo.useDelimiter("\n");
-            String primeiraLinha = arquivo.next();            
+            String primeiraLinha = arquivo.next();
             String[] vet = primeiraLinha.split(";");
-            this.rows =  Integer.parseInt(vet[0]);
-            this.cols =  Integer.parseInt(vet[1]);
+            this.rows = Integer.parseInt(vet[0]);
+            this.cols = Integer.parseInt(vet[1]);
             this.matriz = new int[this.rows][this.cols];
-            
-            ///Daqui pra baixo e dados da matriz
+
             String linhaCorrente = "";
             int linha = 0;
-            while(arquivo.hasNext()){
+            while (arquivo.hasNext()) {
                 linhaCorrente = arquivo.next();
                 vet = linhaCorrente.split(";");
-                                
-                for(int j=0; j < this.cols; j++){
+
+                for (int j = 0; j < this.cols; j++) {
                     int valor = Integer.parseInt(vet[j]);
                     this.matriz[linha][j] = valor;
                 }
-                
                 linha++;
             }
-            
-            
-            
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MatrizTransicao.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
     }
 
     public int getCelula(int l, int c){        
