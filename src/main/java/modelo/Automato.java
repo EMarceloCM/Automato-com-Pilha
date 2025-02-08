@@ -4,10 +4,6 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author jose
- */
 public class Automato {
 
     private String sentenca;
