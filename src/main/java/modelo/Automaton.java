@@ -13,10 +13,14 @@ import java.util.logging.Logger;
 public class Automaton {
     private Set<String> finalStates;
     private List<Transaction> transactionList;
+    private Stack<Character> stack;
+    private Queue<Character> queue;
 
     public Automaton() {
         finalStates = new HashSet<>();
         transactionList = new ArrayList<>();
+        stack = new Stack<>();
+        queue = new LinkedList<>();
 
         try {
             readTransactionFile();
@@ -50,5 +54,9 @@ public class Automaton {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Automaton.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean acceptSentence(String sentence) {
+        return true;
     }
 }
